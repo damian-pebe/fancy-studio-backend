@@ -20,8 +20,11 @@ app.use("/checkout", checkoutSession)
 import { bookMeeting } from './modules/stripe/book-meeting.js';  
 app.use("/book-meeting", bookMeeting) 
 
-// import { registerMeeting } from './modules/stripe/register-meeting.js';  
-// app.use("/register-meeting", registerMeeting) 
+import { insertRegister } from './modules/stripe/register-meeting.js';  
+app.use("/register-meeting", insertRegister) 
+
+import { checkRegister } from './modules/stripe/check-register.js';  
+app.use("/check-register", checkRegister) 
 
 import { getRegister } from './modules/stripe/get-register.js';  
 app.use("/get-register", getRegister) 

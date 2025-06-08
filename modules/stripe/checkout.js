@@ -10,6 +10,25 @@ import { bookMeeting, BASE_URL } from "../../environment.js";
 const checkoutSession = express.Router();
 
 checkoutSession.post("/", async (req, res) => {
+  const {
+    phone,
+    email,
+    amount,
+    currency,
+    status,
+    selected_day,
+    selected_time,
+  } = req.body || {};
+
+  const safeData = {
+    phone: phone ?? "",
+    email: email ?? "",
+    amount: amount ? Number(amount) : 0,
+    currency: currency ? currency.toUpperCase() : "MXN",
+    status: status ?? "pending",
+    selected_day: selected_day ?? "",
+    selected_time: selected_time ?? "",
+  };
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -37,6 +56,14 @@ checkoutSession.post("/", async (req, res) => {
       cancel_url: `${BASE_URL}/agendar`,
     });
 
+    const insertData = await fetch(`${BASE_URL}/book-meeting`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(safeData),
+    });
+
+   console.log(insertData.data[0])
+
     res.status(200).json({ url: session.url });
   } catch (error) {
     console.error("Error al crear la sesión de checkout:", error);
@@ -45,4 +72,3 @@ checkoutSession.post("/", async (req, res) => {
 });
 
 export { checkoutSession };
-

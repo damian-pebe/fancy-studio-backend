@@ -5,20 +5,10 @@ const getRegister = express.Router();
 
 getRegister.get("/", async (req, res) => {
   try {
-    const { phone, email } = req.body;
-
+    const { phone, email } = req.query;
     const result = await supabase`
       SELECT selected_day, selected_time FROM register
-      WHERE email = ${email} AND phone = ${phone}
-      LIMIT 1;
-    `;
-
-    if (result.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "Register not found",
-      });
-    }
+      WHERE email = ${email} AND phone = ${phone}`;
 
     res.status(200).json({
       success: true,

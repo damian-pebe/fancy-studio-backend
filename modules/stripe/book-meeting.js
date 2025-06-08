@@ -5,27 +5,17 @@ const bookMeeting = express.Router();
 
 bookMeeting.post("/", async (req, res) => {
   try {
-    const { amount, currency, status, phone, email } = req.body;
+    const { amount, currency, status, phone, email, selected_day, selected_time } = req.body;
 
     const safeData = {
-      amount: amount ?? 100.0,
-      currency: currency ?? "MXN",
-      status: status ?? "pending",
-      phone: phone ?? "0000000000",
-      email: email ?? "null@example.com",
+      amount: amount,
+      currency: currency ,
+      status: status ,
+      phone: phone,
+      email: email,
+      selected_day: selected_day,
+      selected_time: selected_time
     };
-
-    const apiResponse = await fetch("myapi", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ phone: safeData.phone, email: safeData.email }),
-    });
-
-    const { selected_day, selected_time } = await apiResponse.json();
-    safeData.selected_day = selected_day;
-    safeData.selected_time = selected_time;
 
     const result = await supabase`
       INSERT INTO schedule_meetings (
@@ -39,7 +29,6 @@ bookMeeting.post("/", async (req, res) => {
       RETURNING *;
     `;
 
-    console.log("Payment record inserted:", result);
     res.status(200).json({
       success: true,
       message: "Payment record inserted",

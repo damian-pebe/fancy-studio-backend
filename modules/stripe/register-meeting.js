@@ -1,9 +1,9 @@
 import express from "express";
 import supabase from "../../db.js";
 
-const registerMeeting = express.Router();
+const insertRegister = express.Router();
 
-registerMeeting.post("/", async (req, res) => {
+insertRegister.post("/", async (req, res) => {
     try {
         const {
             phone,
@@ -19,7 +19,7 @@ registerMeeting.post("/", async (req, res) => {
             phone: phone ?? '',
             email: email ?? '',
             amount: amount ? Number(amount) : 0,
-            currency: currency ? currency.toUpperCase() : 'USD',
+            currency: currency ? currency.toUpperCase() : 'MXN',
             status: status ?? 'pending',
             selected_day: selected_day ?? '',
             selected_time: selected_time ?? ''
@@ -53,4 +53,4 @@ registerMeeting.post("/", async (req, res) => {
     }
 });
 
-export default registerMeeting;
+export { insertRegister };
