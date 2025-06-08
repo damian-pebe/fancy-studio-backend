@@ -6,18 +6,41 @@ const bookMeeting = express.Router();
 
 bookMeeting.post("/", async (req, res) => {
   try {
+    const {
+      user_id,
+      amount,
+      currency,
+      status,
+      selected_day,
+      selected_time,
+      phone,
+      email
+    } = req.body;
+
+    const safeData = {
+      user_id: user_id ?? 1,
+      amount: amount ?? 100.00,
+      currency: currency ?? 'MXN',
+      status: status ?? 'pending',
+      selected_day: selected_day ?? new Date().toISOString().split('T')[0],
+      selected_time: selected_time ?? new Date().toISOString(),
+      phone: phone ?? '0000000000',
+      email: email ?? 'null@example.com',
+    };
+
     const result = await supabase`
-      INSERT INTO checkout_payments (
-        user_id, amount, currency, status, selected_day,
-        selected_time, phone, email
+      INSERT INTO schedule_meetings (
+      user_id, amount, currency, status, selected_day,
+      selected_time, phone, email
       )
       VALUES (
-        1, 100.00, 'USD', 'completed', '2023-10-01',
-        '10:00', '1234567890', 'user@example.com'
+      ${safeData.user_id}, ${safeData.amount}, ${safeData.currency}, ${safeData.status}, ${safeData.selected_day},
+      ${safeData.selected_time}, ${safeData.phone}, ${safeData.email}
       )
       RETURNING *;
     `;
 
+    console.log('Payment record inserted:', result);
     res.status(200).json({
       success: true,
       message: 'Payment record inserted',

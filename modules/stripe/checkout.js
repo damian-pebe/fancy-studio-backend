@@ -6,7 +6,6 @@ dotenv.config();
 import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-import supabase from "../../db.js";
 import { bookMeeting, BASE_URL } from "../../environment.js";
 const checkoutSession = express.Router();
 
@@ -33,10 +32,6 @@ checkoutSession.post("/", async (req, res) => {
       customer_creation: "always",
       phone_number_collection: {
         enabled: true,
-      },
-       metadata: {
-        selected_day,
-        selected_time,
       },
       success_url: `${BASE_URL}/success`,
       cancel_url: `${BASE_URL}/agendar`,

@@ -5,6 +5,10 @@ import cors from "cors";
 
 //?init for express app 
 const app = express();
+
+import { webhook } from "./modules/stripe/webhook.js";
+app.use("/webhook", webhook);
+
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -13,9 +17,11 @@ app.use(cors());
 import { checkoutSession } from './modules/stripe/checkout.js';  
 app.use("/checkout", checkoutSession) 
 
-import { bookMeeting } from './modules/stripe/checkout.js';  
+import { bookMeeting } from './modules/stripe/book-meeting.js';  
 app.use("/book-meeting", bookMeeting) 
 
+import { registerMeeting } from './modules/stripe/book-meeting.js';  
+app.use("/register-meeting", registerMeeting) 
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
