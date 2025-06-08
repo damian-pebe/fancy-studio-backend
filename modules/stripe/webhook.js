@@ -1,13 +1,14 @@
 import express from "express";
 import Stripe from "stripe";
 import bodyParser from "body-parser";
-import dotenv from "dotenv";
 
+import dotenv from "dotenv";
 dotenv.config();
 
 const webhook = express.Router();
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2024-04-10',
+});
 import { BASE_URL } from "../../environment.js";
 
 
@@ -48,8 +49,8 @@ webhook.post(
             amount: session.amount_total / 100,
             currency: session.currency,
             status: "completed",
-            phone,
-            email,
+            phone: phone,
+            email: email,
           }),
         });
       } catch (error) {
