@@ -29,6 +29,12 @@ bookMeeting.post("/", async (req, res) => {
       RETURNING *;
     `;
 
+    console.log(`Inserted new meeting record into schedule_meetings table after payment success: 
+      Amount: ${safeData.amount} ${safeData.currency}
+      Date: ${safeData.selected_day} at ${safeData.selected_time}
+      Contact: ${safeData.email} / ${safeData.phone}
+      Status: ${safeData.status}`);
+
     res.status(200).json({
       success: true,
       message: "Payment record inserted",
