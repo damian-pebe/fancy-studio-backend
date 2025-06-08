@@ -13,6 +13,9 @@ app.use(cors());
 import { checkoutSession } from './modules/stripe/checkout.js';  
 app.use("/checkout", checkoutSession) 
 
+import { bookMeeting } from './modules/stripe/checkout.js';  
+app.use("/book-meeting", bookMeeting) 
+
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
