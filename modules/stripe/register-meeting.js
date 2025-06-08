@@ -9,35 +9,25 @@ registerMeeting.post("/", async (req, res) => {
             phone,
             email,
             amount,
-            currency = 'USD',
-            status = 'pending',
-            selected_day = '',
-            selected_time = '',
-            user_id = null
+            currency,
+            status,
         } = req.body || {};
 
-        // Prepare safe data object
         const safeData = {
-            phone: phone || '',
-            email: email || '',
-            amount: Number(amount),
-            currency: currency.toUpperCase(),
-            status,
-            selected_day,
-            selected_time,
-            user_id
+            phone: phone ?? '',
+            email: email ?? '',
+            amount: amount ? Number(amount) : 0,
+            currency: currency ? currency.toUpperCase() : 'USD',
+            status: status ?? 'pending'
         };
 
-        // Insert into database
         const result = await supabase`
-            INSERT INTO schedule_meetings (
-                user_id, amount, currency, status, selected_day,
-                selected_time, phone, email
+            INSERT INTO register (
+                phone, email, amount, currency, status
             )
             VALUES (
-                ${safeData.user_id}, ${safeData.amount}, ${safeData.currency}, 
-                ${safeData.status}, ${safeData.selected_day},
-                ${safeData.selected_time}, ${safeData.phone}, ${safeData.email}
+                ${safeData.phone}, ${safeData.email}, ${safeData.amount}, 
+                ${safeData.currency}, ${safeData.status}
             )
             RETURNING *
         `;
@@ -45,14 +35,14 @@ registerMeeting.post("/", async (req, res) => {
         res.json({
             success: true,
             data: result[0],
-            message: 'Meeting registered successfully'
+            message: 'Registration successful'
         });
 
     } catch (error) {
         res.status(500).json({
             success: false,
             error: error.message,
-            message: 'Failed to register meeting'
+            message: 'Failed to register'
         });
     }
 });
