@@ -30,7 +30,7 @@ import { getRegister } from './modules/stripe/get-register.js';
 app.use("/get-register", getRegister) 
 
 import { getRoot } from './modules/get-root.js';  
-app.use("/get-root", getRoot) 
+app.use("/", getRoot) 
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
