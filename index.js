@@ -20,8 +20,11 @@ app.use("/checkout", checkoutSession)
 import { bookMeeting } from './modules/stripe/book-meeting.js';  
 app.use("/book-meeting", bookMeeting) 
 
-import { registerMeeting } from './modules/stripe/book-meeting.js';  
-app.use("/register-meeting", registerMeeting) 
+// import { registerMeeting } from './modules/stripe/register-meeting.js';  
+// app.use("/register-meeting", registerMeeting) 
+
+import { getRegister } from './modules/stripe/get-register.js';  
+app.use("/get-register", getRegister) 
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

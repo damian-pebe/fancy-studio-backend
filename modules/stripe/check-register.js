@@ -1,9 +1,8 @@
 import express from "express";
-import supabase from "../../db.js";
 
-const bookMeeting = express.Router();
+const checkRegister = express.Router();
 
-bookMeeting.post("/", async (req, res) => {
+checkRegister.post("/", async (req, res) => {
   try {
     const { amount, currency, status, phone, email } = req.body;
 
@@ -27,23 +26,10 @@ bookMeeting.post("/", async (req, res) => {
     safeData.selected_day = selected_day;
     safeData.selected_time = selected_time;
 
-    const result = await supabase`
-      INSERT INTO schedule_meetings (
-      amount, currency, status, selected_day,
-      selected_time, phone, email
-      )
-      VALUES (
-      ${safeData.amount}, ${safeData.currency}, ${safeData.status}, ${safeData.selected_day},
-      ${safeData.selected_time}, ${safeData.phone}, ${safeData.email}
-      )
-      RETURNING *;
-    `;
-
-    console.log("Payment record inserted:", result);
     res.status(200).json({
       success: true,
       message: "Payment record inserted",
-      data: result,
+      data: safeData,
     });
   } catch (error) {
     console.error("Error inserting payment:", error);
@@ -54,4 +40,4 @@ bookMeeting.post("/", async (req, res) => {
   }
 });
 
-export { bookMeeting };
+export { checkRegister };
