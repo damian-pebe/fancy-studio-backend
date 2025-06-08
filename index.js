@@ -1,12 +1,20 @@
-import express from 'express';
+//?only imports for api rest
+import express from "express";
+import bodyParser from "body-parser";
+import cors from "cors";
 
+//?init for express app 
 const app = express();
-const port = 8080;
+app.use(bodyParser.json());
+app.use(cors());
 
-app.get('/', (req, res) => {
-  res.send('Hello, ES Modules + Express!');
-});
+//!ROUTES ALL HERE
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+import { checkoutSession } from './modules/stripe/checkout.js';  
+app.use("/checkout", checkoutSession) 
+
+
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

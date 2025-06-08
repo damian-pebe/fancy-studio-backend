@@ -19,6 +19,12 @@
   "homepage": "https://github.com/damian-pebe/fancy-studio-backend#readme",
   "description": "",
   "dependencies": {
-    "express": "^5.1.0"
+    "axios": "^1.9.0",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "postgres": "^3.4.7",
+    "stripe": "^18.2.1"
   }
 }
