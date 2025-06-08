@@ -6,9 +6,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const webhook = express.Router();
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2024-04-10",
-});
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 import { BASE_URL } from "../../environment.js";
 
 
