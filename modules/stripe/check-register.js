@@ -26,9 +26,19 @@ checkRegister.post("/", async (req, res) => {
     );
 
     const responseData = await apiResponse.json();
+
+    if (!apiResponse.ok || !responseData.data) {
+      console.log("No register found for:", email, phone);
+      return res.status(404).json({
+        success: false,
+        message: "No register found",
+      });
+    }
+
     safeData.selected_day = responseData.data.selected_day;
     safeData.selected_time = responseData.data.selected_time;
-    safeData.status = "done"
+
+    safeData.status = "done";
 
     const insertData = await fetch(`${BASE_URL}/book-meeting`, {
       method: "POST",
@@ -40,7 +50,7 @@ checkRegister.post("/", async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Payment record inserted successfully",
-      data: insertDataResponse.data[0]
+      data: insertDataResponse.data[0],
     });
   } catch (error) {
     console.error("Unexpected error inserting payment:", error);

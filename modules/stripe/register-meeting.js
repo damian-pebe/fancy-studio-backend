@@ -37,7 +37,7 @@ insertRegister.post("/", async (req, res) => {
             )
             RETURNING *
         `;
-
+        console.log("Inserted Into register, data: " + result[0])
         res.json({
             success: true,
             data: result[0],

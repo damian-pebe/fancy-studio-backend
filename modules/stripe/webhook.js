@@ -31,8 +31,8 @@ webhook.post(
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
 
-      const phone = session.customer_details?.phone || null;
-      const email = session.customer_details?.email;
+      const phone = session.customer_details?.phone || "1234567890";
+      const email = session.customer_details?.email || "stripe@example.com";
 
       try {
         console.log("Sending data to API:", {
@@ -42,7 +42,7 @@ webhook.post(
           phone,
           email,
         });
-        await fetch(`${BASE_URL}/book-meeting`, {
+        await fetch(`${BASE_URL}/check-register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

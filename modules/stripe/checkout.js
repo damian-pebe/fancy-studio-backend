@@ -23,26 +23,32 @@ checkoutSession.post("/", async (req, res) => {
   const safeData = {
     phone: phone ?? "",
     email: email ?? "",
-    amount: amount ? Number(amount) : 0,
-    currency: currency ? currency.toUpperCase() : "MXN",
+    amount: amount ?? 100,
+    currency: currency ?? "MXN",
     status: status ?? "pending",
     selected_day: selected_day ?? "",
     selected_time: selected_time ?? "",
   };
   try {
+    await fetch(`${BASE_URL}/register-meeting`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(safeData),
+    });
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
         {
           price_data: {
-            currency: "mxn",
+            currency: safeData.currency,
             product_data: {
               name: "Agendar Cita en Fancy Microblading",
               description:
                 "Reserva tu cita para un servicio de microblading profesional.\n Esta cita es no reembolsable.\nAl reservar tu espacio, bloqueamos ese horario exclusivamente para ti, rechazando otras posibles citas.",
               images: [bookMeeting],
             },
-            unit_amount: 10000,
+            unit_amount: safeData.amount * 100,
           },
           quantity: 1,
         },
@@ -56,13 +62,7 @@ checkoutSession.post("/", async (req, res) => {
       cancel_url: `${BASE_URL}/agendar`,
     });
 
-    const insertData = await fetch(`${BASE_URL}/book-meeting`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(safeData),
-    });
-
-   console.log(insertData.data[0])
+    
 
     res.status(200).json({ url: session.url });
   } catch (error) {
