@@ -49,7 +49,7 @@ webhook.post(
             amount: session.amount_total / 100,
             currency: session.currency,
             status: "completed",
-            phone: phone,
+            phone: phone.replace(/^\+\d{2}/, ''),
             email: email,
           }),
         });

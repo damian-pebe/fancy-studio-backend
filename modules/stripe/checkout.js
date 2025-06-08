@@ -22,7 +22,7 @@ checkoutSession.post("/", async (req, res) => {
   } = req.body || {};
 
   const safeData = {
-    phone: "+52" + phone ?? "",
+    phone: phone ?? "",
     email: email ?? "",
     amount: amount ?? 100,
     currency: currency ?? "MXN",
