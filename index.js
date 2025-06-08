@@ -29,6 +29,9 @@ app.use("/check-register", checkRegister)
 import { getRegister } from './modules/stripe/get-register.js';  
 app.use("/get-register", getRegister) 
 
+import { getRoot } from './modules/get-root.js';  
+app.use("/get-root", getRoot) 
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
