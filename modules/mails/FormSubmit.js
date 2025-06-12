@@ -4,13 +4,14 @@ import sendEmail from "./emailService.js";
 const formSubmit = express.Router();
 
 formSubmit.post("/", async (req, res) => {
-  const { subject, text, to } = req.query;
+  const { date, time, phone, email } = req.query;
 
-  if ( !subject || !text || !to) {
+  if (!date || !time || !phone || !email) {
     return res.status(400).json({ error: "Missing required fields" });
   }
+
   try {
-    const response = await sendEmail(subject, text, to);
+    const response = await sendEmail(date, time, phone, email);
     res.status(200).json({ message: "Email sent successfully", response });
   } catch (error) {
     res

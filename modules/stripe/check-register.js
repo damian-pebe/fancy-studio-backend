@@ -47,6 +47,21 @@ checkRegister.post("/", async (req, res) => {
     });
 
     const insertDataResponse = await insertData.json();
+    
+    const emailDate = safeData.selected_day;
+    const emailTime = safeData.selected_time;
+    const emailPhone = safeData.phone;
+    const emailTo = safeData.email;
+
+    const mail = await fetch(
+      `${BASE_URL}/formSubmit?date=${emailDate}&time=${emailTime}&phone=${emailPhone}&email=${emailTo}`,
+      {
+      method: "POST",
+      headers: { "Content-Type": "application/json" }
+      }
+    );
+    console.log("Email Status: " + mail.statusText)
+
     res.status(200).json({
       success: true,
       message: "Payment record inserted successfully",
