@@ -35,6 +35,9 @@ app.use("/", getRoot)
 import { formSubmit } from "./modules/mails/FormSubmit.js";
 app.use("/formSubmit", formSubmit)
 
+import { deleteRegister } from "./modules/stripe/delete-preregister.js";
+app.use("/delete-register", deleteRegister)
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
