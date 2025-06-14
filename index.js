@@ -38,6 +38,10 @@ app.use("/formSubmit", formSubmit)
 import { deleteRegister } from "./modules/stripe/delete-preregister.js";
 app.use("/delete-register", deleteRegister)
 
+import { bookedTimes } from "./modules/users/scheduleTimes.js";
+app.use("/booked-times", bookedTimes)
+
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
